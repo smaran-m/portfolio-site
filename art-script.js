@@ -11,7 +11,7 @@ let currentArtworkIndex = 0;
 let currentImageIndex = 0;
 
 // ASCII frame characters
-const frameChars = ['░', '▒', '▓', '█', '■', '●', '○', '□'];
+const frameChars = ['░', '▒', '▓', '█', '■', '●', '▪'];
 const cornerChars = ['★', '✦', '✧', '✩', '✪', '✫', '✬', '✭', '✮', '✯', '✰'];
 
 // Function to create ASCII frame

@@ -125,7 +125,7 @@ function updateCanvas() {
                 const phase = (distance - speed * elapsed) * (2 * Math.PI / wavelength);
 
                 // Calculate the amplitude using cosine function
-                let amplitude = height * Math.cos(phase) * (1 / (1 + elapsed));
+                let amplitude = height * Math.cos(phase) * (1 / (1 + elapsed)) * ripple.opacity;
 
                 // Consider the ripple if the point is within its active area
                 if (Math.abs(distance - speed * elapsed) < thickness) {
@@ -172,7 +172,7 @@ function amplitudeToColor(amplitude) {
     colorValue = Math.max(127, Math.min(255, colorValue));
 
     // Style the color, currently greyscale
-    return `rgb(${colorValue}, ${colorValue}, 220)`;
+    return `rgba(${colorValue}, ${colorValue}, 220, ${Math.abs(amplitude)})`;
 }
 
 function updateFishPositions() {
@@ -290,9 +290,11 @@ function mouseClick(event) {
         y: event.offsetY,
         time: currentTime,
         wavelength: 50,    // Adjust for wavelength
-        speed: 100,        // Speed of the ripple expansion (pixels per second)
+        speed: 200,        // Speed of the ripple expansion (pixels per second)
         thickness: 50,     // Thickness of the ripple wavefront
-        height: 1,         // Height of the wave (affects amplitude)
+        height: 2,         // Height of the wave (affects amplitude)
+        opacity: 1,        // Opacity of the ripple
+        ttl: 2             // Time to live (in seconds)
     };
     ripples.push(ripple);
 }

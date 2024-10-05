@@ -3,16 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Music Player</title>
+    <title>the club</title>
     <style>
-        body, html {
+        html, body {
+            height: 100%;
             margin: 0;
             padding: 0;
-            height: 100%;
-            overflow: hidden;
+            overflow-x: hidden; overflow-y: auto;
             font-family: Courier, monospace;
             color: #ffa07a;
             background-color: #000;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        main {
+            flex: 1 0 auto; min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
         }
         #asciiCanvas {
             position: absolute;
@@ -70,21 +79,211 @@
             font-weight: bold;
             cursor: pointer;
         }
-        .nav-button {
+        .dropdown {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
+            z-index: 3;
+        }
+        .dropbtn {
             background-color: rgba(255, 160, 122, 0.7);
             color: white;
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
+            padding: 12px 16px;
             font-size: 16px;
-            z-index: 1000; /* Ensure it's above other elements */
-            cursor: pointer; /* Add cursor style to indicate it's clickable */
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: Courier;
         }
-        .nav-button:hover {
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.9);
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 3;
+            /*bottom: 100%;*/
+            right: 0;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .dropdown-content a {
+            color: #ffa07a;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-family: Courier;
+        }
+        .dropdown-content a:hover {
+            background-color: rgba(255, 160, 122, 0.2);
+        }
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+        .dropdown:hover .dropbtn {
             background-color: rgba(255, 160, 122, 0.9);
+        }
+        #visualizer-container {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        overflow: hidden;
+        }
+        .visualizer {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        height: 100%;
+        font-family: monospace;
+        font-size: 14px;
+        line-height: 1;
+        }
+        .visualizer-column {
+            width: 14px;
+            text-align: center;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        .now-playing {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            text-align: center;
+            font-family: monospace;
+            font-size: 12px;
+            z-index: 5;
+        }
+        .visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: calc(100% - 24px); /* Adjust for now playing display */
+            font-family: monospace;
+            font-size: 14px;
+            line-height: 1;
+        }
+        .visualizer-column {
+            width: 14px;
+            text-align: center;
+            display: flex;
+            flex-direction: column-reverse;
+        }
+        .visualizer-column span {
+            display: block;
+        }
+        .intensity-0 { color: #000000; }
+        .intensity-1 { color: #1a1a1a; }
+        .intensity-2 { color: #333333; }
+        .intensity-3 { color: #4d4d4d; }
+        .intensity-4 { color: #666666; }
+        .intensity-5 { color: #808080; }
+        .intensity-6 { color: #999999; }
+        .intensity-7 { color: #b3b3b3; }
+        .intensity-8 { color: #cccccc; }
+        .intensity-9 { color: #e6e6e6; }
+        .intensity-10 { color: #ffffff; }
+        .tracklist-item {
+            margin-bottom: 20px;
+        }
+        .tracklist-thumbnail {
+            max-width: 200px;
+            height: auto;
+            position: relative;
+            top: 0%;
+            left: 0%;
+            background-size: cover;
+            background-position: center;
+
+        }
+        .tracklist-title {
+            margin-top: 10px;
+        }
+        .song-title {
+            margin-top: 10px;
+        }
+        .audio-container {
+        margin-top: 10px;
+        margin-bottom: 20px;
+        }
+
+        .custom-audio-controls {
+            display: flex;
+            align-items: center;
+            background-color: black;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .play-pause-btn {
+            background-color: black;
+            border: 2px solid #ffa07a;
+            color: #ffa07a;
+            padding: 5px 10px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            background-color: #ffa07a;
+            height: 5px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+
+        .progress-bar {
+            background-color: #ffffff;
+            height: 100%;
+            width: 0;
+        }
+
+        .time-display {
+            font-size: 12px;
+            min-width: 80px;
+            text-align: right;
+        }
+
+        .audio-player {
+            display: none; /* Hide the default audio player */
+        }
+
+        @media (max-width: 768px) {
+            body {
+                margin: 0;
+                padding: 10px;
+            }
+            #trackGrid {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .tracklist-item {
+                width: 100%;
+                max-width: 400px;
+            }
+            .tracklist-thumbnail {
+                max-width: 100%;
+                height: auto;
+            }
+            .custom-audio-controls {
+                flex-wrap: wrap;
+            }
+            .play-pause-btn {
+                margin-bottom: 5px;
+            }
+            .progress-container {
+                width: 100%;
+                margin: 5px 0;
+            }
+            .time-display {
+                width: 100%;
+                text-align: center;
+                margin-top: 5px;
+            }
         }
     </style>
 </head>
@@ -92,10 +291,20 @@
     <canvas id="asciiCanvas"></canvas>
     <div class="content">
         <h1>music</h1>
+        <p>all beats are free to use with credit. samples haven't been cleared</p>
         <div class="track-grid" id="trackGrid"></div>
-        <h1>wip</h1>
     </div>
-    <a href="/" class="nav-button">home 🏠</a>
+    <div class="dropdown">
+        <button class="dropbtn">sitemap 🛟</button>
+        <div class="dropdown-content">
+            <a href="/">home</a>
+            <a href="/art">art</a>
+            <a href="/music">music</a>
+            <a href="https://www.youtube.com/@sammish/">videos</a>
+            <a href="https://smarancod.es/blog/hello/">blog</a>
+        </div>
+    </div>
+    <div id="visualizer-container"></div>
     <script src="music-script.js"></script>
 </body>
 </html>

@@ -1,0 +1,27 @@
+[
+  {
+    "thumbnail": "/assets/music/ascending/thumbnail.jpg",
+    "title": "ascending",
+    "songs": [
+      {
+        "title": "ascending",
+        "url": "/assets/music/ascending/ascending.mp3"
+      }
+    ]
+  },
+  {
+    "thumbnail": "/assets/music/beats/thumb.jpg",
+    "title": "beats",
+    "songs": [
+      {
+        "title": "tiger_claw_90",
+        "url": "/assets/music/beats/tiger_claw_90.mp3"
+      },
+      {
+        "title": "upbeat_155",
+        "url": "/assets/music/beats/upbeat_155.wav"
+      }
+
+    ]
+  }
+]
