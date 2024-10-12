@@ -57,7 +57,7 @@ function createVisualizer(audio, songTitle, albumTitle) {
             let columnContent = '';
             for (let j = 0; j < height; j++) {
                 const intensity = (j + 1) / height;
-                const colorClass = `intensity-${Math.round(intensity * 20)}`;
+                const colorClass = `intensity-${Math.min(10, Math.round(intensity * 10))}`;
                 columnContent += `<span class="${colorClass}">■</span>`;
             }
             column.innerHTML = columnContent;

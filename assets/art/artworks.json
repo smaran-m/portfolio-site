@@ -2,7 +2,7 @@
   {
     "thumbnail": "dragon/thumbnail.png",
     "images": [ "dragon/1.png", "dragon/2.png", "dragon/3.png", "dragon/4.png", "dragon/5.png" ],
-    "title": "Dragon, Reimagined (2024)",
+    "title": "Dragon (2024)",
     "captions": [
       "final image",
       "base rendering and colors",
@@ -14,7 +14,7 @@
   {
     "thumbnail": "orange/thumbnail.png",
     "images": [ "orange/1.jpg", "orange/2.jpg", "orange/3.jpg", "orange/4.jpg"],
-    "title": "Poster Mockup (2022)",
+    "title": "Poster (2022)",
     "captions": [
       "postprocessing (updated 2024)",
       "cel-shaded stylized rendering",
@@ -25,7 +25,7 @@
   {
     "thumbnail": "spear/thumbnail.png",
     "images": [ "spear/1.png", "spear/2.png", "spear/3.png", "spear/4.png", "spear/5.png" ],
-    "title": "Cursed Spearman (2022)",
+    "title": "Spearman (2022)",
     "captions": [
       "postprocessing (updated 2024)",
       "background and touchups",
