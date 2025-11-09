@@ -30,23 +30,17 @@ export default function PageTransition({ children }: { children: React.ReactNode
   const [pageInfo, setPageInfo] = useState(getPageInfo(pathname));
   const [displayedChildren, setDisplayedChildren] = useState(children);
 
-  console.log('🎨 RENDER - pathname:', pathname, 'isTransitioning:', isTransitioning, 'wipePosition:', wipePosition);
-
   // Listen for custom navigation event from Sidebar
   useEffect(() => {
     const handleTransitionStart = (e: CustomEvent) => {
       const { color, label } = e.detail;
-      console.log('🚀 Custom event received - starting transition for:', label);
 
       setPageInfo({ color, name: label.toUpperCase() });
       setIsTransitioning(true);
       setWipePosition(100);
 
-      console.log('⏱️ T+0ms: Starting transition, wipePosition set to 100');
-
       // Start wipe from right
       requestAnimationFrame(() => {
-        console.log('⏱️ T+~16ms: requestAnimationFrame - wipePosition set to 0');
         setWipePosition(0); // Wipe to left, covering screen
       });
     };
@@ -59,8 +53,6 @@ export default function PageTransition({ children }: { children: React.ReactNode
   useEffect(() => {
     if (!isTransitioning) return;
 
-    console.log('🔄 Pathname changed to:', pathname, '- updating content');
-
     // Update displayed children to new page
     setDisplayedChildren(children);
 
@@ -69,7 +61,6 @@ export default function PageTransition({ children }: { children: React.ReactNode
 
     // End transition
     setTimeout(() => {
-      console.log('⏱️ Transition complete');
       setIsTransitioning(false);
     }, 250);
   }, [pathname]);
@@ -94,7 +85,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
                 className="text-8xl font-bold tracking-tight"
                 style={{ color: textColor }}
               >
-                {wipePosition === 0 ? '⏮' : '▶'}
+                {wipePosition === 0 ? '\u23EE\uFE0E' : '\u25B6\uFE0E'}
               </h1>
             </div>
           </div>

@@ -1,16 +1,7 @@
 'use client';
 
 import { useRouter, usePathname } from 'next/navigation';
-import { NAV_COLORS } from '@/lib/colors';
-
-const navItems = [
-  { href: '/', color: NAV_COLORS[0], label: 'Home' },
-  { href: '/art', color: NAV_COLORS[1], label: 'Art' },
-  { href: '/music', color: NAV_COLORS[2], label: 'Music' },
-  { href: '/projects', color: NAV_COLORS[3], label: 'Projects' },
-  { href: '/blog', color: NAV_COLORS[4], label: 'Blog' },
-  { href: '/about', color: NAV_COLORS[5], label: 'About' },
-];
+import { useTheme } from '@/contexts/ThemeContext';
 
 // Determine text color based on background brightness
 const getTextColor = (bgColor: string) => {
@@ -30,6 +21,16 @@ const getTextColor = (bgColor: string) => {
 export default function Sidebar() {
   const router = useRouter();
   const pathname = usePathname();
+  const { theme } = useTheme();
+
+  const navItems = [
+    { href: '/', color: theme.navColors[0], label: 'home' },
+    { href: '/art', color: theme.navColors[1], label: 'art' },
+    { href: '/music', color: theme.navColors[2], label: 'music' },
+    { href: '/projects', color: theme.navColors[3], label: 'projects' },
+    { href: '/blog', color: theme.navColors[4], label: 'blog' },
+    { href: '/about', color: theme.navColors[5], label: 'about' },
+  ];
 
   const handleNavigation = (e: React.MouseEvent, href: string, color: string, label: string) => {
     // Don't navigate if already on this page
@@ -49,7 +50,10 @@ export default function Sidebar() {
   };
 
   return (
-    <nav className="fixed right-0 top-0 bottom-0 w-16 flex flex-col gap-1 py-2 pr-2 bg-gray-300" style={{ zIndex: 100 }}>
+    <nav
+      className="fixed right-0 top-0 bottom-0 w-16 flex flex-col gap-1 py-2 pr-2"
+      style={{ zIndex: 100, backgroundColor: theme.sidebar.background }}
+    >
       {navItems.map((item) => (
         <a
           key={item.href}

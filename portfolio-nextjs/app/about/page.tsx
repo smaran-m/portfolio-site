@@ -1,9 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import ThemedPage, { ThemedText, ThemedBorder } from '@/components/ThemedPage';
 
 export const metadata = {
-  title: 'About - Sammish',
-  description: 'About Smaran (Sammish) - Artist, musician, and software engineer',
+  title: 'About - sammish',
+  description: 'About Smaran (sammish) - Artist, musician, and software engineer',
 };
 
 const buttons = [
@@ -23,15 +24,18 @@ const buttons = [
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen py-16 bg-black text-white">
+    <ThemedPage className="py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="prose prose-gray max-w-none">
           <h1 className="text-4xl font-bold tracking-tight mb-2">About Me</h1>
-          <p className="text-sm text-gray-400 mb-8 font-mono">Updated 10-31-2024</p>
+          <ThemedText variant="tertiary">
+            <p className="text-sm mb-8 font-mono">Updated 10-31-2024</p>
+          </ThemedText>
 
-          <div className="text-gray-300 space-y-4">
+          <ThemedText variant="secondary">
+            <div className="space-y-4">
             <p>
-              Hello. I am Smaran aka Sammish (online since 2013). This is my portfolio website, feel free to look around.
+              Hello. I am Smaran aka sammish (online since 2013). This is my portfolio website, feel free to look around.
             </p>
 
             <p>
@@ -52,24 +56,30 @@ export default function AboutPage() {
                 @sammi.sh
               </Link>
             </p>
-          </div>
+            </div>
+          </ThemedText>
 
           <div className="mt-8">
             <h2 className="text-2xl font-bold mb-4">Currently</h2>
-            <ul className="list-disc list-inside space-y-2 text-gray-300">
-              <li>Looking for a job</li>
-              <li>Getting my masters in CS</li>
-              <li>Trying to lose weight</li>
-              <li>Making video games for fun</li>
-              <li>Writing a blog post/essay on AI art</li>
-              <li>Experiencing becoming</li>
-            </ul>
+            <ThemedText variant="secondary">
+              <ul className="list-disc list-inside space-y-2">
+                <li>Looking for a job</li>
+                <li>Getting my masters in CS</li>
+                <li>Trying to lose weight</li>
+                <li>Making video games for fun</li>
+                <li>Writing a blog post/essay on AI art</li>
+                <li>Experiencing becoming</li>
+              </ul>
+            </ThemedText>
           </div>
 
           <div className="mt-8">
             <h2 className="text-2xl font-bold mb-2">Likes</h2>
-            <p className="text-xs text-gray-400 mb-4">(exhaustive)</p>
-            <ul className="space-y-2 text-gray-300 text-sm">
+            <ThemedText variant="tertiary">
+              <p className="text-xs mb-4">(exhaustive)</p>
+            </ThemedText>
+            <ThemedText variant="secondary">
+              <ul className="space-y-2 text-sm">
               <li>
                 <strong className="font-mono text-accent">music:</strong> Black Sabbath, Against All Logic, Sweet Trip, Stereolab, Chief Keef
               </li>
@@ -94,12 +104,15 @@ export default function AboutPage() {
               <li>
                 <strong className="font-mono text-accent">life:</strong> Lowercase text, almond croissants, rotary engines, crunchy leaves, 2 for 1 deals, poor liars, procedural generation, green apple shampoo, Qoo, cats
               </li>
-            </ul>
+              </ul>
+            </ThemedText>
           </div>
 
-          <div className="mt-12 border-t border-gray-700 pt-8">
+          <ThemedBorder className="mt-12 pt-8 border-t">
             <h2 className="text-xl font-bold mb-4 font-mono">Buttons</h2>
-            <p className="text-xs text-gray-400 mb-4">Vintage web badges from across the internet</p>
+            <ThemedText variant="tertiary">
+              <p className="text-xs mb-4">Vintage web badges from across the internet</p>
+            </ThemedText>
             <div className="flex flex-wrap gap-2">
               {buttons.map((button, index) => (
                 <div key={index} className="relative">
@@ -114,9 +127,9 @@ export default function AboutPage() {
                 </div>
               ))}
             </div>
-          </div>
+          </ThemedBorder>
         </div>
       </div>
-    </div>
+    </ThemedPage>
   );
 }

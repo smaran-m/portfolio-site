@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar";
 import PageTransition from "@/components/PageTransition";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Smaran (Sammish) - Art, Music & Code",
-  description: "Personal portfolio and blog by Smaran (Sammish). Digital art, music production, and thoughts on code, design, and procedural generation.",
+  title: "sammish's portfolio",
+  description: "Personal portfolio and blog by Smaran (sammish). Digital art, music production, and thoughts on code, design, and procedural generation.",
+  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
 };
 
 export default function RootLayout({
@@ -29,12 +31,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Sidebar />
-        <PageTransition>
-          <main className="mr-16">
-            {children}
-          </main>
-        </PageTransition>
+        <ThemeProvider>
+          <Sidebar />
+          <PageTransition>
+            <main className="mr-16">
+              {children}
+            </main>
+          </PageTransition>
+        </ThemeProvider>
       </body>
     </html>
   );

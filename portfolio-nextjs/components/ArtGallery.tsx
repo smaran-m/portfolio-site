@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Artwork {
   thumbnail: string;
@@ -15,6 +16,7 @@ interface ArtGalleryProps {
 }
 
 export default function ArtGallery({ artworks }: ArtGalleryProps) {
+  const { theme } = useTheme();
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -62,9 +64,13 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
           <button
             key={index}
             onClick={() => openModal(artwork)}
-            className="group relative border border-gray-200 bg-white hover:border-accent transition-all overflow-hidden"
+            className="group relative border hover:border-accent transition-all overflow-hidden"
+            style={{
+              borderColor: theme.border,
+              backgroundColor: theme.card,
+            }}
           >
-            <div className="aspect-square relative bg-gray-100">
+            <div className="aspect-square relative" style={{ backgroundColor: theme.border }}>
               <Image
                 src={`/assets/art/${artwork.thumbnail}`}
                 alt={artwork.title}
@@ -74,21 +80,37 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
               />
             </div>
             <div className="p-4">
-              <h3 className="font-mono text-sm text-gray-900">{artwork.title}</h3>
-              <p className="text-xs text-gray-500 mt-1">{artwork.images.length} images</p>
+              <h3 className="font-mono text-sm" style={{ color: theme.text.primary }}>
+                {artwork.title}
+              </h3>
+              <p className="text-xs mt-1" style={{ color: theme.text.tertiary }}>
+                {artwork.images.length} images
+              </p>
             </div>
 
             {/* Subtle ASCII decoration */}
-            <div className="absolute top-2 left-2 text-gray-300 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+            <div
+              className="absolute top-2 left-2 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ color: theme.text.tertiary }}
+            >
               ⌜
             </div>
-            <div className="absolute top-2 right-2 text-gray-300 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+            <div
+              className="absolute top-2 right-2 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ color: theme.text.tertiary }}
+            >
               ⌝
             </div>
-            <div className="absolute bottom-2 left-2 text-gray-300 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+            <div
+              className="absolute bottom-2 left-2 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ color: theme.text.tertiary }}
+            >
               ⌞
             </div>
-            <div className="absolute bottom-2 right-2 text-gray-300 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity">
+            <div
+              className="absolute bottom-2 right-2 text-xs font-mono opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{ color: theme.text.tertiary }}
+            >
               ⌟
             </div>
           </button>
@@ -99,16 +121,36 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
       {selectedArtwork && (
         <div
           ref={modalRef}
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 outline-none"
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-2 sm:p-4 outline-none mr-0 sm:mr-16"
           onClick={closeModal}
           onKeyDown={handleKeyDown}
           tabIndex={0}
         >
           <button
             onClick={closeModal}
-            className="absolute top-4 right-4 text-white text-2xl hover:text-accent transition-colors"
+            className="absolute top-2 right-2 sm:top-4 sm:right-20 text-white text-2xl hover:text-accent transition-colors z-10 w-10 h-10 flex items-center justify-center"
           >
             ✕
+          </button>
+
+          {/* Touch-friendly prev/next buttons for mobile */}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              prevImage();
+            }}
+            className="absolute left-2 top-1/2 -translate-y-1/2 sm:hidden text-white text-4xl hover:text-accent transition-colors z-10 w-12 h-12 flex items-center justify-center"
+          >
+            ‹
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              nextImage();
+            }}
+            className="absolute right-2 top-1/2 -translate-y-1/2 sm:hidden text-white text-4xl hover:text-accent transition-colors z-10 w-12 h-12 flex items-center justify-center"
+          >
+            ›
           </button>
 
           <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
@@ -123,9 +165,9 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
               />
             </div>
 
-            <div className="mt-4 text-center">
-              <h3 className="text-white font-mono text-lg">{selectedArtwork.title}</h3>
-              <p className="text-gray-400 text-sm mt-1">
+            <div className="mt-2 sm:mt-4 text-center px-2">
+              <h3 className="text-white font-mono text-base sm:text-lg">{selectedArtwork.title}</h3>
+              <p className="text-gray-400 text-xs sm:text-sm mt-1">
                 {selectedArtwork.captions[currentImageIndex]}
               </p>
               <p className="text-gray-500 text-xs mt-2 font-mono">
@@ -133,7 +175,8 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
               </p>
             </div>
 
-            <div className="flex gap-4 justify-center mt-6">
+            {/* Desktop navigation buttons */}
+            <div className="hidden sm:flex gap-4 justify-center mt-6">
               <button
                 onClick={prevImage}
                 className="px-4 py-2 bg-white text-black hover:bg-accent hover:text-white transition-colors font-mono text-sm"
@@ -148,8 +191,11 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
               </button>
             </div>
 
-            <p className="text-center text-gray-500 text-xs mt-4 font-mono">
+            <p className="text-center text-gray-500 text-xs mt-2 sm:mt-4 font-mono hidden sm:block">
               Use arrow keys to navigate · Press ESC to close
+            </p>
+            <p className="text-center text-gray-500 text-xs mt-2 font-mono sm:hidden">
+              Swipe or tap arrows to navigate
             </p>
           </div>
         </div>

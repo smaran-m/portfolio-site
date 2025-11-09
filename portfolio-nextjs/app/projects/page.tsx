@@ -1,31 +1,36 @@
 import ProjectGallery from '@/components/ProjectGallery';
 import projects from '@/public/assets/projects/projects.json';
+import ThemedPage, { ThemedText } from '@/components/ThemedPage';
 
 export const metadata = {
-  title: 'Projects - Sammish',
-  description: 'Software projects and technical work by Smaran (Sammish)',
+  title: 'Projects - sammish',
+  description: 'Software projects and technical work by Smaran (sammish)',
 };
 
 export default function Projects() {
   return (
-    <div className="min-h-screen py-16 bg-white">
+    <ThemedPage className="py-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-4">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">
             Projects
           </h1>
-          <p className="text-lg text-gray-600 max-w-2xl">
-            Software projects, web applications, and technical experiments. Each project showcases development process and final results.
-          </p>
+          <ThemedText variant="secondary">
+            <p className="text-lg max-w-2xl">
+              Software projects, web applications, and technical experiments. Each project showcases development process and final results.
+            </p>
+          </ThemedText>
 
           {/* ASCII decoration */}
-          <div className="mt-6 text-gray-300 font-mono text-xs">
-            ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-          </div>
+          <ThemedText variant="tertiary">
+            <div className="mt-6 font-mono text-xs">
+              ▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+            </div>
+          </ThemedText>
         </div>
 
         <ProjectGallery projects={projects} />
       </div>
-    </div>
+    </ThemedPage>
   );
 }

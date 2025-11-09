@@ -2,10 +2,11 @@ import Link from 'next/link';
 import { getAllPosts, getAllTags } from '@/lib/blog';
 import Tag from '@/components/Tag';
 import Card from '@/components/Card';
+import ThemedPage, { ThemedText } from '@/components/ThemedPage';
 
 export const metadata = {
-  title: 'Blog - Sammish',
-  description: 'Thoughts on code, art, music, and procedural generation',
+  title: 'Blog - sammish',
+  description: 'Thoughts on art, science, culture',
 };
 
 export default function BlogPage() {
@@ -13,24 +14,30 @@ export default function BlogPage() {
   const tags = getAllTags();
 
   return (
-    <div className="min-h-screen py-16 bg-black text-white">
+    <ThemedPage className="py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
           <h1 className="text-4xl font-bold tracking-tight mb-4">Blog</h1>
-          <p className="text-lg text-gray-400">
-            Thoughts on code, art, music, and procedural generation.
-          </p>
+          <ThemedText variant="secondary">
+            <p className="text-lg">
+              Thoughts on art, science, culture.
+            </p>
+          </ThemedText>
 
           {/* ASCII decoration */}
-          <div className="mt-6 text-gray-600 font-mono text-xs">
-            ░░░░░░░░░░░░░░░░░░░░
-          </div>
+          <ThemedText variant="tertiary">
+            <div className="mt-6 font-mono text-xs">
+              ░░░░░░░░░░░░░░░░░░░░
+            </div>
+          </ThemedText>
         </div>
 
         {/* Tags */}
         {tags.length > 0 && (
           <div className="mb-8">
-            <p className="text-sm text-gray-600 mb-3 font-mono">Filter by tag:</p>
+            <ThemedText variant="tertiary">
+              <p className="text-sm mb-3 font-mono">Filter by tag:</p>
+            </ThemedText>
             <div className="flex flex-wrap gap-2">
               {tags.map((tag) => (
                 <Tag key={tag} name={tag} href={`/blog/tags/${tag.toLowerCase()}`} />
@@ -42,9 +49,11 @@ export default function BlogPage() {
         {/* Posts */}
         {posts.length === 0 ? (
           <Card>
-            <p className="text-gray-600 text-center py-8">
-              No posts yet. Check back soon!
-            </p>
+            <ThemedText variant="secondary">
+              <p className="text-center py-8">
+                No posts yet. Check back soon!
+              </p>
+            </ThemedText>
           </Card>
         ) : (
           <div className="space-y-6">
@@ -52,20 +61,26 @@ export default function BlogPage() {
               <Link key={post.slug} href={`/blog/${post.slug}`}>
                 <Card hover>
                   <div className="flex justify-between items-start mb-3">
-                    <h2 className="text-2xl font-bold text-gray-900 hover:text-accent transition-colors">
-                      {post.metadata.title}
-                    </h2>
-                    <time className="text-sm text-gray-500 font-mono whitespace-nowrap ml-4">
-                      {new Date(post.metadata.date).toLocaleDateString('en-US', {
-                        year: 'numeric',
-                        month: 'short',
-                        day: 'numeric',
-                      })}
-                    </time>
+                    <ThemedText variant="primary">
+                      <h2 className="text-2xl font-bold hover:text-accent transition-colors">
+                        {post.metadata.title}
+                      </h2>
+                    </ThemedText>
+                    <ThemedText variant="tertiary">
+                      <time className="text-sm font-mono whitespace-nowrap ml-4">
+                        {new Date(post.metadata.date).toLocaleDateString('en-US', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                        })}
+                      </time>
+                    </ThemedText>
                   </div>
 
                   {post.metadata.description && (
-                    <p className="text-gray-600 mb-4">{post.metadata.description}</p>
+                    <ThemedText variant="secondary">
+                      <p className="mb-4">{post.metadata.description}</p>
+                    </ThemedText>
                   )}
 
                   {post.metadata.tags && post.metadata.tags.length > 0 && (
@@ -81,6 +96,6 @@ export default function BlogPage() {
           </div>
         )}
       </div>
-    </div>
+    </ThemedPage>
   );
 }

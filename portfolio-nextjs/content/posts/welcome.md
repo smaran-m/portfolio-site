@@ -3,7 +3,7 @@ title: "Welcome to the Blog"
 date: "2024-11-08"
 tags: ["meta", "updates"]
 description: "First post on the new site. Testing out the MDX blog system."
-author: "Sammish"
+author: "sammish"
 ---
 
 # Welcome

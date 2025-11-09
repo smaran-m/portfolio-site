@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Song {
   title: string;
@@ -19,6 +20,7 @@ interface AudioPlayerProps {
 }
 
 export default function AudioPlayer({ albums }: AudioPlayerProps) {
+  const { theme } = useTheme();
   const [currentSong, setCurrentSong] = useState<{ album: string; song: Song } | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
@@ -151,16 +153,45 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
     audioRef.current.currentTime = percent * duration;
   };
 
-  // ASCII intensity levels
+  // Cleanup: Stop audio when component unmounts (navigating away)
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.src = '';
+      }
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+      }
+    };
+  }, []);
+
+  // Calculate luminance and sort nav colors by brightness (once)
+  const navColorsByLuminosity = [...theme.navColors].sort((a, b) => {
+    const getLuminance = (hex: string) => {
+      const rgb = parseInt(hex.replace('#', ''), 16);
+      const r = (rgb >> 16) & 0xff;
+      const g = (rgb >> 8) & 0xff;
+      const b = rgb & 0xff;
+      return 0.299 * r + 0.587 * g + 0.114 * b;
+    };
+    return getLuminance(a) - getLuminance(b);
+  });
+
+  // Block character intensity levels
   const getVisualizerChar = (value: number): string => {
-    const chars = ' ·:!|█';
+    const chars = ' ░▒▓█';
     const index = Math.floor((value / 255) * (chars.length - 1));
     return chars[index];
   };
 
   const getVisualizerColor = (value: number): string => {
-    const intensity = Math.floor((value / 255) * 255);
-    return `rgb(${intensity}, ${intensity}, ${intensity})`;
+    // Map intensity to nav colors sorted by luminosity
+    const index = Math.floor((value / 255) * (navColorsByLuminosity.length - 1));
+    return navColorsByLuminosity[index];
   };
 
   return (
@@ -168,9 +199,19 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
       {/* Track Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {albums.map((album, albumIndex) => (
-          <div key={albumIndex} className="border border-gray-200 bg-white overflow-hidden">
+          <div
+            key={albumIndex}
+            className="border overflow-hidden"
+            style={{
+              borderColor: theme.border,
+              backgroundColor: theme.card,
+            }}
+          >
             <div className="flex gap-4 p-4">
-              <div className="relative w-24 h-24 flex-shrink-0 bg-gray-100">
+              <div
+                className="relative w-24 h-24 flex-shrink-0"
+                style={{ backgroundColor: theme.border }}
+              >
                 <Image
                   src={album.thumbnail}
                   alt={album.title}
@@ -180,24 +221,43 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
                 />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-mono text-sm font-bold text-gray-900 mb-2">
+                <h3
+                  className="font-mono text-sm font-bold mb-2"
+                  style={{ color: theme.text.primary }}
+                >
                   {album.title}
                 </h3>
                 <div className="space-y-1">
-                  {album.songs.map((song, songIndex) => (
-                    <button
-                      key={songIndex}
-                      onClick={() => playSong(album.title, song)}
-                      className={`w-full text-left text-xs font-mono px-2 py-1 transition-colors ${
-                        currentSong?.song.url === song.url
-                          ? 'bg-accent text-white'
-                          : 'hover:bg-gray-100 text-gray-700'
-                      }`}
-                    >
-                      {currentSong?.song.url === song.url && isPlaying ? '▶ ' : ''}
-                      {song.title}
-                    </button>
-                  ))}
+                  {album.songs.map((song, songIndex) => {
+                    const isActive = currentSong?.song.url === song.url;
+                    return (
+                      <button
+                        key={songIndex}
+                        onClick={() => playSong(album.title, song)}
+                        className="group w-full text-left text-xs font-mono px-2 py-1 transition-colors overflow-hidden relative"
+                        style={
+                          isActive
+                            ? { backgroundColor: theme.border, color: theme.text.primary }
+                            : { color: theme.text.secondary, backgroundColor: 'transparent' }
+                        }
+                        onMouseEnter={(e) => {
+                          if (!isActive) {
+                            e.currentTarget.style.backgroundColor = theme.border;
+                          }
+                        }}
+                        onMouseLeave={(e) => {
+                          if (!isActive) {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                          }
+                        }}
+                      >
+                        <span className="inline-block whitespace-nowrap group-hover:animate-marquee-scroll group-active:animate-marquee-scroll">
+                          {isActive && isPlaying ? '\u25B6\uFE0E ' : ''}
+                          {song.title}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -207,32 +267,50 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
 
       {/* Now Playing + Controls */}
       {currentSong && (
-        <div className="fixed bottom-0 left-0 right-0 bg-gray-900 text-white border-t border-gray-700 z-50">
+        <div
+          className="fixed bottom-0 left-0 right-0 mr-16 border-t z-50"
+          style={{
+            backgroundColor: theme.mode === 'dark' ? '#000000' : theme.sidebar.background,
+            borderColor: theme.border,
+          }}
+        >
           <div className="max-w-7xl mx-auto px-4 py-4">
             <div className="flex items-center gap-4 mb-2">
               <button
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="bg-accent hover:bg-accent-dark text-white px-4 py-2 font-mono text-sm transition-colors"
+                className="px-4 py-2 font-mono text-sm transition-opacity hover:opacity-80"
+                style={{
+                  backgroundColor: theme.border,
+                  color: theme.text.primary
+                }}
               >
-                {isPlaying ? '⏸' : '▶'}
+                {isPlaying ? '\u23F8\uFE0E' : '\u25B6\uFE0E'}
               </button>
 
               <div className="flex-1">
-                <p className="text-sm font-mono">
+                <p className="text-sm font-mono" style={{ color: theme.text.primary }}>
                   {currentSong.album} — {currentSong.song.title}
                 </p>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-xs text-gray-400 font-mono">{formatTime(currentTime)}</span>
+                  <span className="text-xs font-mono" style={{ color: theme.text.tertiary }}>
+                    {formatTime(currentTime)}
+                  </span>
                   <div
-                    className="flex-1 h-1 bg-gray-700 cursor-pointer"
+                    className="flex-1 h-1 cursor-pointer"
+                    style={{ backgroundColor: theme.card }}
                     onClick={handleSeek}
                   >
                     <div
-                      className="h-full bg-accent"
-                      style={{ width: `${(currentTime / duration) * 100}%` }}
+                      className="h-full"
+                      style={{
+                        width: `${(currentTime / duration) * 100}%`,
+                        backgroundColor: theme.text.primary
+                      }}
                     />
                   </div>
-                  <span className="text-xs text-gray-400 font-mono">{formatTime(duration)}</span>
+                  <span className="text-xs font-mono" style={{ color: theme.text.tertiary }}>
+                    {formatTime(duration)}
+                  </span>
                 </div>
               </div>
             </div>
@@ -242,17 +320,19 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
               <div className="flex items-end justify-center h-24 font-mono text-xs leading-none overflow-hidden">
                 {visualizerData.map((value, index) => {
                   const height = Math.floor((value / 255) * 12); // 12 rows max
+                  //const char = getVisualizerChar(value);
+                  const color = getVisualizerColor(value);
                   const column = Array(12).fill(' ').map((_, i) => i < height ? '█' : ' ');
                   return (
                     <div key={index} className="flex flex-col-reverse flex-1 text-center">
-                      {column.map((char, i) => (
+                      {column.map((c, i) => (
                         <div
                           key={i}
                           style={{
-                            color: i < height ? getVisualizerColor(value) : 'transparent',
+                            color: i < height ? color : 'transparent',
                           }}
                         >
-                          {char}
+                          {c}
                         </div>
                       ))}
                     </div>

@@ -1,4 +1,4 @@
-# Sammish Portfolio
+# sammish Portfolio
 
 Modern portfolio website built with Next.js featuring art gallery, music player, and blog.
 
@@ -131,6 +131,6 @@ Update `app/layout.tsx` and `lib/rss.ts` with your information.
 
 ## Author
 
-Smaran (Sammish)
+Smaran (sammish)
 - Bluesky: [@sammi.sh](https://bsky.app/profile/sammi.sh)
 - YouTube: [@sammish](https://www.youtube.com/@sammish/)

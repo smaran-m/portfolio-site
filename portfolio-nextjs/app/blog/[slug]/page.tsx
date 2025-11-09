@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { getAllPosts, getPostBySlug, markdownToHtml } from '@/lib/blog';
 import Tag from '@/components/Tag';
+import ThemedPage, { ThemedText, ThemedBorder } from '@/components/ThemedPage';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   return {
-    title: `${post.metadata.title} - Sammish`,
+    title: `${post.metadata.title} - sammish`,
     description: post.metadata.description || post.metadata.title,
   };
 }
@@ -36,14 +37,15 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   const contentHtml = await markdownToHtml(post.content);
 
   return (
-    <div className="min-h-screen py-16 bg-black text-white">
+    <ThemedPage className="py-16">
       <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <header className="mb-8 pb-8 border-b border-gray-700">
+        <ThemedBorder className="mb-8 pb-8 border-b">
           <h1 className="text-4xl font-bold tracking-tight mb-4">
             {post.metadata.title}
           </h1>
 
-          <div className="flex items-center gap-4 text-sm text-gray-400 font-mono">
+          <ThemedText variant="tertiary">
+            <div className="flex items-center gap-4 text-sm font-mono">
             <time>
               {new Date(post.metadata.date).toLocaleDateString('en-US', {
                 year: 'numeric',
@@ -57,7 +59,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 <span>{post.metadata.author}</span>
               </>
             )}
-          </div>
+            </div>
+          </ThemedText>
 
           {post.metadata.tags && post.metadata.tags.length > 0 && (
             <div className="flex flex-wrap gap-2 mt-4">
@@ -66,27 +69,31 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               ))}
             </div>
           )}
-        </header>
+        </ThemedBorder>
 
         <div
           className="prose prose-gray max-w-none prose-headings:font-bold prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:text-accent prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
-        <footer className="mt-16 pt-8 border-t border-gray-200">
-          <div className="text-sm text-gray-500 font-mono mb-4">
-            <p>Comments powered by GitHub Issues</p>
-          </div>
+        <ThemedBorder className="mt-16 pt-8 border-t">
+          <ThemedText variant="tertiary">
+            <div className="text-sm font-mono mb-4">
+              <p>Comments powered by GitHub Issues</p>
+            </div>
+          </ThemedText>
           <div id="comments-container">
             {/* Replace "username/repo" with your actual GitHub repository */}
             {/* Uncomment when you have a repository set up */}
-            {/* <Comments repo="username/repo" /> */}
-            <p className="text-sm text-gray-400 italic">
-              To enable comments, edit app/blog/[slug]/page.tsx and add your GitHub repository in the Comments component.
-            </p>
+            {/* <Comments repo="smaran-m/portfolio-site" /> */}
+            <ThemedText variant="tertiary">
+              <p className="text-sm italic">
+                To enable comments, edit app/blog/[slug]/page.tsx and add your GitHub repository in the Comments component.
+              </p>
+            </ThemedText>
           </div>
-        </footer>
+        </ThemedBorder>
       </article>
-    </div>
+    </ThemedPage>
   );
 }

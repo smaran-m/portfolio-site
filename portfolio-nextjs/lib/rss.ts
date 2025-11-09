@@ -7,14 +7,14 @@ export async function generateRSSFeed() {
   const date = new Date();
 
   const feed = new Feed({
-    title: "Sammish's Blog",
+    title: "sammish's Blog",
     description: 'Thoughts on code, art, music, and procedural generation',
     id: siteURL,
     link: siteURL,
     language: 'en',
     image: `${siteURL}/favicon.ico`,
     favicon: `${siteURL}/favicon.ico`,
-    copyright: `All rights reserved ${date.getFullYear()}, Smaran (Sammish)`,
+    copyright: `All rights reserved ${date.getFullYear()}, Smaran (sammish)`,
     updated: date,
     feedLinks: {
       rss2: `${siteURL}/rss.xml`,
@@ -22,7 +22,7 @@ export async function generateRSSFeed() {
       atom: `${siteURL}/atom.xml`,
     },
     author: {
-      name: 'Smaran (Sammish)',
+      name: 'Smaran (sammish)',
       email: 'noreply@sammi.sh',
       link: siteURL,
     },
@@ -42,7 +42,7 @@ export async function generateRSSFeed() {
       content: contentHtml,
       author: [
         {
-          name: post.metadata.author || 'Sammish',
+          name: post.metadata.author || 'sammish',
           link: siteURL,
         },
       ],

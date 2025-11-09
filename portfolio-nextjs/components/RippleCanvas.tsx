@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface Ripple {
   x: number;
@@ -24,6 +25,7 @@ const FISH_CHAR_SET = "-∘◦•○◎◍●◉⬤";
 const TARGET_INTERVAL = 1; // seconds
 
 export default function RippleCanvas() {
+  const { theme } = useTheme();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ripplesRef = useRef<Ripple[]>([]);
   const fishPositionsRef = useRef<Position[]>([]);
@@ -135,9 +137,31 @@ export default function RippleCanvas() {
     };
 
     const amplitudeToColor = (amplitude: number): string => {
-      let colorValue = Math.floor(((amplitude + 1) / 2) * 255);
-      colorValue = Math.max(127, Math.min(255, colorValue));
-      return `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${Math.abs(amplitude)})`;
+      let normalizedValue = (amplitude + 1) / 2; // 0 to 1
+
+      if (theme.mode === 'dark') {
+        // For dark mode: 0-128 (dark to mid grays)
+        let colorValue = Math.floor(normalizedValue * 128);
+        colorValue = Math.max(0, Math.min(128, colorValue));
+        return `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${Math.abs(amplitude)})`;
+      } else if (theme.mode === 'manila') {
+        // For manila mode: use warm yellowish-brown tones
+        let r = Math.floor(normalizedValue * 100 + 120); // 120-220
+        let g = Math.floor(normalizedValue * 80 + 90); // 90-170
+        let b = Math.floor(normalizedValue * 40 + 40); // 40-80
+        return `rgba(${r}, ${g}, ${b}, ${Math.abs(amplitude)})`;
+      } else if (theme.mode === 'finder') {
+        // For finder mode: use cool blue tones
+        let r = Math.floor(normalizedValue * 80 + 100); // 100-180
+        let g = Math.floor(normalizedValue * 90 + 140); // 140-230
+        let b = Math.floor(normalizedValue * 70 + 180); // 180-250
+        return `rgba(${r}, ${g}, ${b}, ${Math.abs(amplitude)})`;
+      } else {
+        // For light mode: 127-255 (light grays)
+        let colorValue = Math.floor(normalizedValue * 255);
+        colorValue = Math.max(127, Math.min(255, colorValue));
+        return `rgba(${colorValue}, ${colorValue}, ${colorValue}, ${Math.abs(amplitude)})`;
+      }
     };
 
     const updateCanvas = (timestamp: number) => {
@@ -266,13 +290,13 @@ export default function RippleCanvas() {
         cancelAnimationFrame(animationFrameRef.current);
       }
     };
-  }, []);
+  }, [theme]);
 
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 w-full h-full bg-white"
-      style={{ zIndex: 0 }}
+      className="fixed inset-0 w-full h-full"
+      style={{ zIndex: 0, backgroundColor: theme.background }}
     />
   );
 }

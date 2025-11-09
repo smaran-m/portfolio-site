@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import projects from '@/public/assets/projects/projects.json';
 import Image from 'next/image';
+import ThemedPage, { ThemedText } from '@/components/ThemedPage';
 
 export async function generateStaticParams() {
   return projects.map((project, idx) => ({ slug: idx.toString() }));
@@ -17,14 +18,16 @@ export default function ProjectPage({ params }: ProjectPageProps) {
   if (!project) return notFound();
 
   return (
-    <div className="min-h-screen py-16 bg-white">
+    <ThemedPage className="py-16">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h1 className="text-4xl font-bold tracking-tight text-gray-900 mb-4">
+        <h1 className="text-4xl font-bold tracking-tight mb-4">
           {project.title}
         </h1>
-        <p className="text-lg text-gray-600 mb-8">{project.description}</p>
+        <ThemedText variant="secondary">
+          <p className="text-lg mb-8">{project.description}</p>
+        </ThemedText>
         <div className="mb-8 flex justify-center">
-          <div className="relative aspect-square w-64 bg-gray-100">
+          <div className="relative aspect-square w-64 bg-gray-100 dark:bg-gray-800">
             <Image
               src={`/assets/projects/${project.thumbnail}`}
               alt={project.title}
@@ -34,8 +37,10 @@ export default function ProjectPage({ params }: ProjectPageProps) {
             />
           </div>
         </div>
-        <div className="text-sm text-gray-500 font-mono">Tag: {project.tag}</div>
+        <ThemedText variant="tertiary">
+          <div className="text-sm font-mono">Tag: {project.tag}</div>
+        </ThemedText>
       </div>
-    </div>
+    </ThemedPage>
   );
 }

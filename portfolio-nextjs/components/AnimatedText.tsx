@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { NAV_COLORS } from '@/lib/colors';
+import { useTheme } from '@/contexts/ThemeContext';
 
 interface AnimatedTextProps {
   text: string;
@@ -11,6 +11,7 @@ interface AnimatedTextProps {
 export default function AnimatedText({ text, className = '' }: AnimatedTextProps) {
   const [colorIndices, setColorIndices] = useState<Record<number, number>>({});
   const intervalRefs = useRef<Record<number, NodeJS.Timeout>>({});
+  const { theme } = useTheme();
 
   const startColorCycle = (charIndex: number) => {
     // Clear any existing interval
@@ -21,7 +22,7 @@ export default function AnimatedText({ text, className = '' }: AnimatedTextProps
     let currentColorIndex = 0;
 
     intervalRefs.current[charIndex] = setInterval(() => {
-      currentColorIndex = (currentColorIndex + 1) % NAV_COLORS.length;
+      currentColorIndex = (currentColorIndex + 1) % theme.navColors.length;
       setColorIndices(prev => ({ ...prev, [charIndex]: currentColorIndex }));
     }, 150); // Cycle through colors every 150ms
   };
@@ -52,7 +53,7 @@ export default function AnimatedText({ text, className = '' }: AnimatedTextProps
     <div className={`inline-block ${className}`} style={{ fontFamily: '"Helvetica Neue", Helvetica, Arial, sans-serif' }}>
       {text.split('').map((char, index) => {
         const colorIndex = colorIndices[index];
-        const color = colorIndex !== undefined ? NAV_COLORS[colorIndex] : '#171717';
+        const color = colorIndex !== undefined ? theme.navColors[colorIndex] : theme.text.primary;
 
         return (
           <span

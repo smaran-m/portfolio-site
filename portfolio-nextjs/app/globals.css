@@ -44,3 +44,23 @@ body {
   color: var(--foreground);
   font-family: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(calc(-100% + 150px));
+  }
+  50.1% {
+    transform: translateX(calc(-100% + 150px));
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-scroll {
+  animation: marquee-scroll 5s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
