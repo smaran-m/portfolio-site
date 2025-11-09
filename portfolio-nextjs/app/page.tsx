@@ -26,7 +26,7 @@ export default function Home() {
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-bold tracking-tight mb-4 text-left" style={{ color: theme.text.primary }}>
-              <AnimatedText text='"SAMMISH"' />
+              "<AnimatedText text='sammish' />"
             </h1>
 
             <div className="text-sm mb-6" style={{ color: theme.text.tertiary }}>

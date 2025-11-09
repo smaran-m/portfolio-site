@@ -6,11 +6,14 @@ import ThemedPage, { ThemedText } from '@/components/ThemedPage';
 
 export const metadata = {
   title: 'Blog - sammish',
-  description: 'Thoughts on art, science, culture',
+  description: 'Midwit notes on art, science, culture',
 };
 
 export default function BlogPage() {
-  const posts = getAllPosts();
+  const allPosts = getAllPosts();
+  const posts = allPosts.filter(post =>
+    !post.metadata.tags?.some(tag => tag.toLowerCase() === 'draft')
+  );
   const tags = getAllTags();
 
   return (
@@ -20,7 +23,7 @@ export default function BlogPage() {
           <h1 className="text-4xl font-bold tracking-tight mb-4">Blog</h1>
           <ThemedText variant="secondary">
             <p className="text-lg">
-              Thoughts on art, science, culture.
+              Midwit notes on art, science, culture.
             </p>
           </ThemedText>
 
@@ -56,9 +59,9 @@ export default function BlogPage() {
             </ThemedText>
           </Card>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-2">
             {posts.map((post) => (
-              <Link key={post.slug} href={`/blog/${post.slug}`}>
+              <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
                 <Card hover>
                   <div className="flex justify-between items-start mb-3">
                     <ThemedText variant="primary">

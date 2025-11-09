@@ -13,6 +13,11 @@ export default function Comments({ repo, theme = 'github-light' }: CommentsProps
   useEffect(() => {
     if (!commentsRef.current) return;
 
+    // Check if script already exists to prevent duplicates
+    if (commentsRef.current.querySelector('script[src*="utteranc.es"]')) {
+      return;
+    }
+
     const script = document.createElement('script');
     script.src = 'https://utteranc.es/client.js';
     script.setAttribute('repo', repo);
@@ -22,12 +27,6 @@ export default function Comments({ repo, theme = 'github-light' }: CommentsProps
     script.async = true;
 
     commentsRef.current.appendChild(script);
-
-    return () => {
-      if (commentsRef.current) {
-        commentsRef.current.innerHTML = '';
-      }
-    };
   }, [repo, theme]);
 
   return <div ref={commentsRef} className="utterances-container" />;

@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getAllPosts, getPostBySlug, markdownToHtml } from '@/lib/blog';
 import Tag from '@/components/Tag';
 import ThemedPage, { ThemedText, ThemedBorder } from '@/components/ThemedPage';
+import Comments from '@/components/Comments';
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -72,7 +73,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </ThemedBorder>
 
         <div
-          className="prose prose-gray max-w-none prose-headings:font-bold prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:text-accent prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-900 prose-pre:text-gray-100"
+          className="prose prose-gray max-w-none prose-headings:font-bold prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:text-foreground prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:bg-gray-100 prose-pre:text-foreground prose-pre:border prose-pre:border-gray-200"
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 
@@ -83,14 +84,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
           </ThemedText>
           <div id="comments-container">
-            {/* Replace "username/repo" with your actual GitHub repository */}
-            {/* Uncomment when you have a repository set up */}
-            {/* <Comments repo="smaran-m/portfolio-site" /> */}
-            <ThemedText variant="tertiary">
-              <p className="text-sm italic">
-                To enable comments, edit app/blog/[slug]/page.tsx and add your GitHub repository in the Comments component.
-              </p>
-            </ThemedText>
+            <Comments repo="smaran-m/portfolio-site" />
           </div>
         </ThemedBorder>
       </article>

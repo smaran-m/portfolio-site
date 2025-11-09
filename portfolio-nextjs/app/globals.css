@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
@@ -37,6 +38,7 @@
 
 html {
   background: transparent;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -63,4 +65,9 @@ body {
 .animate-marquee-scroll {
   animation: marquee-scroll 5s ease-in-out infinite;
   animation-delay: 0.5s;
+}
+
+/* Footnote styling */
+.prose :target {
+  scroll-margin-top: 2rem;
 }

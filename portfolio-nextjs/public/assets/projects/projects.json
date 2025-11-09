@@ -1,20 +1,20 @@
 [
   {
-    "thumbnail": "../art/dragon/replace.png",
-    "title": "Project Alpha",
-    "description": "Placeholder project - replace with real data",
-  "tag": "alpha"
+    "thumbnail": "../images/project-thumbs/dungeoncrawler-banner.png",
+    "title": "Dunjin",
+    "description": "A WIP multiplayer platform fighter using Godot - medieval TTRPG combat meets Smash Bros.",
+    "tag": "dungeoncrawler"
   },
   {
-    "thumbnail": "../art/orange/replace.png",
-    "title": "Project Beta",
-    "description": "Placeholder project - replace with real data",
-  "tag": "beta"
+    "thumbnail": "../images/project-thumbs/maptisse-banner.png",
+    "title": "Maptisse",
+    "description": "A tilemap generator for doodling and creating game maps for TTRPGs using Avalonia and .NET.",
+    "tag": "maptisse"
   },
   {
-    "thumbnail": "../art/spear/replace.png",
-    "title": "Project Gamma",
-    "description": "Placeholder project - replace with real data",
-    "tag": "meta"
+    "thumbnail": "../images/project-thumbs/roses1.jpg",
+    "title": "Image-to-ASCII",
+    "description": "A Python script to convert images to ASCII art with color support using PIL.",
+    "tag": "image-to-ascii"
   }
 ]
