@@ -1,6 +1,6 @@
 'use client';
 
-import Link from 'next/link';
+import { useRouter, usePathname } from 'next/navigation';
 import { NAV_COLORS } from '@/lib/colors';
 
 const navItems = [
@@ -28,13 +28,34 @@ const getTextColor = (bgColor: string) => {
 };
 
 export default function Sidebar() {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const handleNavigation = (e: React.MouseEvent, href: string, color: string, label: string) => {
+    // Don't navigate if already on this page
+    if (pathname === href) return;
+
+    e.preventDefault();
+
+    // Dispatch custom event with navigation info for PageTransition to catch
+    window.dispatchEvent(new CustomEvent('startPageTransition', {
+      detail: { href, color, label }
+    }));
+
+    // Navigate after a delay to allow transition to start
+    setTimeout(() => {
+      router.push(href);
+    }, 250);
+  };
+
   return (
     <nav className="fixed right-0 top-0 bottom-0 w-16 flex flex-col gap-1 py-2 pr-2 bg-gray-300" style={{ zIndex: 100 }}>
       {navItems.map((item) => (
-        <Link
+        <a
           key={item.href}
           href={item.href}
-          className="flex-1 transition-all hover:w-20 group relative rounded-r-xl w-12 flex items-center justify-center ml-0"
+          onClick={(e) => handleNavigation(e, item.href, item.color, item.label)}
+          className="flex-1 transition-all hover:w-20 group relative rounded-r-xl w-12 flex items-center justify-center ml-0 cursor-pointer"
           style={{
             backgroundColor: item.color,
           }}
@@ -50,7 +71,7 @@ export default function Sidebar() {
           >
             {item.label}
           </span>
-        </Link>
+        </a>
       ))}
     </nav>
   );

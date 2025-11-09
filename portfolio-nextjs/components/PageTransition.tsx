@@ -1,17 +1,17 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { PAGE_COLORS } from '@/lib/colors';
 
 const getPageInfo = (path: string) => {
-  if (path === '/') return { color: PAGE_COLORS.home, name: 'Home' };
-  if (path.startsWith('/art')) return { color: PAGE_COLORS.art, name: 'Art' };
-  if (path.startsWith('/music')) return { color: PAGE_COLORS.music, name: 'Music' };
-  if (path.startsWith('/projects')) return { color: PAGE_COLORS.projects, name: 'Projects' };
-  if (path.startsWith('/blog')) return { color: PAGE_COLORS.blog, name: 'Blog' };
-  if (path.startsWith('/about')) return { color: PAGE_COLORS.about, name: 'About' };
-  return { color: '#FFFFFF', name: 'Page' };
+  if (path === '/') return { color: PAGE_COLORS.home, name: 'HOME' };
+  if (path.startsWith('/art')) return { color: PAGE_COLORS.art, name: 'ART' };
+  if (path.startsWith('/music')) return { color: PAGE_COLORS.music, name: 'MUSIC' };
+  if (path.startsWith('/projects')) return { color: PAGE_COLORS.projects, name: 'PROJECTS' };
+  if (path.startsWith('/blog')) return { color: PAGE_COLORS.blog, name: 'BLOG' };
+  if (path.startsWith('/about')) return { color: PAGE_COLORS.about, name: 'ABOUT' };
+  return { color: '#FFFFFF', name: 'PAGE' };
 };
 
 const getTextColor = (bgColor: string) => {
@@ -26,69 +26,80 @@ const getTextColor = (bgColor: string) => {
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [transitionPhase, setTransitionPhase] = useState<'color' | 'background' | 'done'>('done');
+  const [wipePosition, setWipePosition] = useState(100); // Start off-screen right
   const [pageInfo, setPageInfo] = useState(getPageInfo(pathname));
-  const [prevPathname, setPrevPathname] = useState(pathname);
+  const [displayedChildren, setDisplayedChildren] = useState(children);
 
+  console.log('🎨 RENDER - pathname:', pathname, 'isTransitioning:', isTransitioning, 'wipePosition:', wipePosition);
+
+  // Listen for custom navigation event from Sidebar
   useEffect(() => {
-    if (pathname !== prevPathname) {
-      const newPageInfo = getPageInfo(pathname);
-      setPageInfo(newPageInfo);
+    const handleTransitionStart = (e: CustomEvent) => {
+      const { color, label } = e.detail;
+      console.log('🚀 Custom event received - starting transition for:', label);
+
+      setPageInfo({ color, name: label.toUpperCase() });
       setIsTransitioning(true);
-      setTransitionPhase('color');
+      setWipePosition(100);
 
-      // Color fill phase - 300ms
-      setTimeout(() => {
-        setTransitionPhase('background');
-      }, 300);
+      console.log('⏱️ T+0ms: Starting transition, wipePosition set to 100');
 
-      // Background fill phase - 300ms
-      setTimeout(() => {
-        setTransitionPhase('done');
-        setIsTransitioning(false);
-        setPrevPathname(pathname);
-      }, 600);
-    }
-  }, [pathname, prevPathname]);
+      // Start wipe from right
+      requestAnimationFrame(() => {
+        console.log('⏱️ T+~16ms: requestAnimationFrame - wipePosition set to 0');
+        setWipePosition(0); // Wipe to left, covering screen
+      });
+    };
+
+    window.addEventListener('startPageTransition', handleTransitionStart as EventListener);
+    return () => window.removeEventListener('startPageTransition', handleTransitionStart as EventListener);
+  }, []);
+
+  // When pathname actually changes (after navigation), update content and finish transition
+  useEffect(() => {
+    if (!isTransitioning) return;
+
+    console.log('🔄 Pathname changed to:', pathname, '- updating content');
+
+    // Update displayed children to new page
+    setDisplayedChildren(children);
+
+    // Wipe back to right immediately
+    setWipePosition(100);
+
+    // End transition
+    setTimeout(() => {
+      console.log('⏱️ Transition complete');
+      setIsTransitioning(false);
+    }, 250);
+  }, [pathname]);
 
   const textColor = getTextColor(pageInfo.color);
-  const finalBg = textColor === '#000000' ? '#FFFFFF' : '#000000';
 
   return (
     <>
+      {displayedChildren}
       {isTransitioning && (
-        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 9999 }}>
-          {/* Color wipe from right (navbar) to left */}
+        <div className="fixed inset-0 pointer-events-none" style={{ zIndex: 50 }}>
+          {/* Color wipe - below navbar (z-index 100) */}
           <div
-            className="absolute inset-0 transition-transform duration-300 ease-out"
+            className="absolute inset-0 transition-transform duration-250 ease-in-out"
             style={{
               backgroundColor: pageInfo.color,
-              transform: transitionPhase === 'color' ? 'translateX(0)' : 'translateX(-100%)',
+              transform: `translateX(${wipePosition}%)`,
             }}
           >
             <div className="absolute inset-0 flex items-center justify-center">
               <h1
-                className="text-8xl font-bold tracking-tight font-mono"
+                className="text-8xl font-bold tracking-tight"
                 style={{ color: textColor }}
               >
-                {pageInfo.name}
+                {wipePosition === 0 ? '⏮' : '▶'}
               </h1>
             </div>
           </div>
-
-          {/* Background wipe from left to right */}
-          {transitionPhase === 'background' && (
-            <div
-              className="absolute inset-0 transition-transform duration-300 ease-out"
-              style={{
-                backgroundColor: finalBg,
-                transform: 'translateX(0)',
-              }}
-            />
-          )}
         </div>
       )}
-      {children}
     </>
   );
 }

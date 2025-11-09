@@ -44,6 +44,40 @@ export default function Home() {
             >
               youtube
             </a>
+            <span>·</span>
+              <span>webrings</span>
+            <a
+              href="https://nonacademic.net/ring?action=prev&from=sammish"
+              className="hover:opacity-70 transition-opacity px-1 rounded"
+              style={{ color: '#FF0000', backgroundColor: '#E5E5E5' }}
+              title="L4K - Previous"
+            >
+              ↑
+            </a>
+            <a
+              href="https://nonacademic.net/ring?action=next&from=sammish"
+              className="hover:opacity-70 transition-opacity px-1 rounded"
+              style={{ color: '#00FF00', backgroundColor: '#E5E5E5' }}
+              title="L4K - Next"
+            >
+              ↓
+            </a>
+            <a
+              href="https://staydown.money/wr?prev=https://sammi.sh/"
+              className="hover:opacity-70 transition-opacity px-1 rounded"
+              style={{ color: '#0000FF', backgroundColor: '#E5E5E5' }}
+              title="staydown.money - Previous"
+            >
+              ←
+            </a>
+            <a
+              href="https://staydown.money/wr?next=https://sammi.sh/"
+              className="hover:opacity-70 transition-opacity px-1 rounded"
+              style={{ color: '#FFFF00', backgroundColor: '#E5E5E5' }}
+              title="staydown.money - Next"
+            >
+              →
+            </a>
           </div>
         </div>
       </div>
