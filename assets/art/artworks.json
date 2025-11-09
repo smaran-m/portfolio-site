@@ -12,6 +12,16 @@
     ]
   },
   {
+    "thumbnail": "dunjin/thumbnail.png",
+    "images": [ "dunjin/1.gif", "dunjin/2.jpg", "dunjin/3.jpg"],
+    "title": "Dunjin (2024)",
+    "captions": [
+      "character animations",
+      "concept art",
+      "animation/croquis studies"
+    ]
+  },
+  {
     "thumbnail": "orange/thumbnail.png",
     "images": [ "orange/1.jpg", "orange/2.jpg", "orange/3.jpg", "orange/4.jpg"],
     "title": "Poster (2022)",

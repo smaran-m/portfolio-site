@@ -6,12 +6,16 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖼️</text></svg>">
     <title>art gallery</title>
     <style>
+        @font-face {
+            font-family: "w95fa"; 
+            src: url("/assets/fonts/W95FA.otf") format("truetype");
+        }
         body, html {
             margin: 0;
             padding: 0;
             height: 100%;
-            font-family: "MS UI Gothic", sans-serif;
-            color: #ffa07a;
+            font-family: "MS UI Gothic", "w95fa", monospace;
+            color: grey;
             background-color: #FAF9F6;
         }
         .content {
@@ -145,7 +149,7 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            font-family:  "MS UI Gothic", sans-serif;
+            font-family: "MS UI Gothic", "w95fa", monospace;
         }
         .dropdown-content {
             display: none;
@@ -164,7 +168,7 @@
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            font-family:  "MS UI Gothic", sans-serif;
+            font-family: "MS UI Gothic", "w95fa", monospace;
         }
         .dropdown-content a:hover {
             background-color: rgba(255, 160, 122, 0.2);
@@ -230,13 +234,13 @@
         </div>
     </div>
     <div class="dropdown">
-        <button class="dropbtn">sitemap 🛟</button>
+        <button class="dropbtn">navigation</button>
         <div class="dropdown-content">
             <a href="/">home</a>
             <a href="/art">art</a>
             <a href="/music">music</a>
             <a href="https://www.youtube.com/@sammish/">videos</a>
-            <a href="https://smarancod.es/blog/hello/">blog</a>
+            <a href="/about">about</a>
         </div>
     </div>
     <script src="art-script.js"></script>

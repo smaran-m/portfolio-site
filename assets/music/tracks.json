@@ -1,4 +1,13 @@
-[
+[{
+    "thumbnail": "/assets/music/butterflyz/thumb.png",
+    "title": "butterflyz",
+    "songs": [
+      {
+        "title": "butterflyz(z0mbiemix)#FMSCL",
+        "url": "/assets/music/butterflyz/butterflyzzz.mp3"
+      }
+    ]
+  },
   {
     "thumbnail": "/assets/music/beats/thumb.jpg",
     "title": "beats",

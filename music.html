@@ -6,13 +6,17 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🪩️</text></svg>">
     <title>the club</title>
     <style>
+        @font-face {
+            font-family: "w95fa"; 
+            src: url("/assets/fonts/W95FA.otf") format("truetype");
+        }
         html, body {
             height: 100%;
             margin: 0;
             padding: 0;
             overflow-x: hidden; overflow-y: auto;
-            font-family: "MS UI Gothic", sans-serif;
-            color: #ffa07a;
+            font-family: "MS UI Gothic", "w95fa", monospace;
+            color: #ffffff;
             background-color: #000;
         }
         body {
@@ -94,7 +98,7 @@
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            font-family: "MS UI Gothic", sans-serif;
+            font-family: "MS UI Gothic", "w95fa", monospace;
         }
         .dropdown-content {
             display: none;
@@ -113,7 +117,7 @@
             padding: 12px 16px;
             text-decoration: none;
             display: block;
-            font-family: "MS UI Gothic", sans-serif;
+            font-family: "MS UI Gothic", "w95fa", monospace;
         }
         .dropdown-content a:hover {
             background-color: rgba(255, 160, 122, 0.2);
@@ -200,9 +204,11 @@
 
         }
         .tracklist-title {
+            background-color: rgba(0, 0, 0, 0.5);
             margin-top: 10px;
         }
         .song-title {
+            background-color: rgba(0, 0, 0, 0.5);
             margin-top: 10px;
         }
         .audio-container {
@@ -213,31 +219,31 @@
         .custom-audio-controls {
             display: flex;
             align-items: center;
-            background-color: black;
+            background-color: rgba(0, 0, 0, 0.5);
             padding: 5px;
             border-radius: 5px;
         }
 
         .play-pause-btn {
-            background-color: black;
-            border: 2px solid #ffa07a;
-            color: #ffa07a;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid #ffffff;
+            color: #ffffff;
             padding: 5px 10px;
-            font-size: 19px;
+            font-size: 10px;
             cursor: pointer;
             border-radius: 3px;
         }
 
         .progress-container {
             flex-grow: 1;
-            background-color: #ffa07a;
+            background-color: #ffffff;
             height: 5px;
             margin: 0 10px;
             cursor: pointer;
         }
 
         .progress-bar {
-            background-color: #ffffff;
+            background-color: #ffa07a;
             height: 100%;
             width: 0;
         }
@@ -296,13 +302,13 @@
         <div class="track-grid" id="trackGrid"></div>
     </div>
     <div class="dropdown">
-        <button class="dropbtn">sitemap 🛟</button>
+        <button class="dropbtn">navigation</button>
         <div class="dropdown-content">
             <a href="/">home</a>
             <a href="/art">art</a>
             <a href="/music">music</a>
             <a href="https://www.youtube.com/@sammish/">videos</a>
-            <a href="https://smarancod.es/blog/hello/">blog</a>
+            <a href="/about">about</a>
         </div>
     </div>
     <div id="visualizer-container"></div>
