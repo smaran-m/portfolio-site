@@ -1,0 +1,47 @@
+[
+  {
+    "thumbnail": "dragon/thumbnail.png",
+    "images": [ "dragon/1.png", "dragon/2.png", "dragon/3.png", "dragon/4.png", "dragon/5.png" ],
+    "title": "Dragon (2024)",
+    "captions": [
+      "final image",
+      "base rendering and colors",
+      "sketchy lineart",
+      "alternate exploration",
+      "original doodle"
+    ]
+  },
+  {
+    "thumbnail": "dunjin/thumbnail.png",
+    "images": [ "dunjin/1.gif", "dunjin/2.jpg", "dunjin/3.jpg"],
+    "title": "Dunjin (2024)",
+    "captions": [
+      "character animations",
+      "concept art",
+      "animation/croquis studies"
+    ]
+  },
+  {
+    "thumbnail": "orange/thumbnail.png",
+    "images": [ "orange/1.jpg", "orange/2.jpg", "orange/3.jpg", "orange/4.jpg"],
+    "title": "Poster (2022)",
+    "captions": [
+      "postprocessing (updated 2024)",
+      "cel-shaded stylized rendering",
+      "base colors",
+      "original doodle"
+    ]
+  },
+  {
+    "thumbnail": "spear/thumbnail.png",
+    "images": [ "spear/1.png", "spear/2.png", "spear/3.png", "spear/4.png", "spear/5.png" ],
+    "title": "Spearman (2022)",
+    "captions": [
+      "postprocessing (updated 2024)",
+      "background and touchups",
+      "base colors",
+      "lineart",
+      "original sketch"
+    ]
+  }
+]

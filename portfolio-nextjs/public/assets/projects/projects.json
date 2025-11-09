@@ -1,0 +1,20 @@
+[
+  {
+    "thumbnail": "../art/dragon/replace.png",
+    "title": "Project Alpha",
+    "description": "Placeholder project - replace with real data",
+  "tag": "alpha"
+  },
+  {
+    "thumbnail": "../art/orange/replace.png",
+    "title": "Project Beta",
+    "description": "Placeholder project - replace with real data",
+  "tag": "beta"
+  },
+  {
+    "thumbnail": "../art/spear/replace.png",
+    "title": "Project Gamma",
+    "description": "Placeholder project - replace with real data",
+    "tag": "meta"
+  }
+]

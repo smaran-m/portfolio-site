@@ -1,0 +1,53 @@
+[{
+    "thumbnail": "/assets/music/butterflyz/thumb.png",
+    "title": "butterflyz",
+    "songs": [
+      {
+        "title": "butterflyz(z0mbiemix)#FMSCL",
+        "url": "/assets/music/butterflyz/butterflyzzz.mp3"
+      }
+    ]
+  },
+  {
+    "thumbnail": "/assets/music/beats/thumb.jpg",
+    "title": "beats",
+    "songs": [
+      {
+        "title": "tiger_claw_90",
+        "url": "/assets/music/beats/tiger_claw_90.mp3"
+      },
+      {
+        "title": "upbeat_144",
+        "url": "/assets/music/beats/upbeat_144.mp3"
+      },
+      {
+        "title": "sah_drill_135",
+        "url": "/assets/music/beats/sah_drill_135.mp3"
+      }
+    ]
+  },
+  {
+    "thumbnail": "/assets/music/ascending/thumbnail.jpg",
+    "title": "ascending",
+    "songs": [
+      {
+        "title": "ascending",
+        "url": "/assets/music/ascending/ascending.mp3"
+      }
+    ]
+  },
+  {
+    "thumbnail": "/assets/music/going/thumb.png",
+    "title": "underrr",
+    "songs": [
+      {
+        "title": "underrr (2024)",
+        "url": "/assets/music/going/going-VIP.mp3"
+      },
+      {
+        "title": "underrr",
+        "url": "/assets/music/going/underrr.mp3"
+      }
+    ]
+  }
+]
