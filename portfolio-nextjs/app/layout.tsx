@@ -19,6 +19,13 @@ export const metadata: Metadata = {
   title: "sammish's portfolio",
   description: "Personal portfolio and blog by Smaran (sammish). Digital art, music production, and thoughts on code, design, and procedural generation.",
   viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/icon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+    ],
+  },
 };
 
 export default function RootLayout({

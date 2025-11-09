@@ -108,7 +108,7 @@ export default function RippleCanvas() {
       const distance = Math.hypot(dx, dy);
 
       if (distance > 1) {
-        const speed = 600; // pixels per second (doubled for faster movement!)
+        const speed = 900; // pixels per second
         const moveDistance = speed * deltaTime; // move based on elapsed time
         const moveX = (dx / distance) * moveDistance;
         const moveY = (dy / distance) * moveDistance;
