@@ -1,5 +1,15 @@
 [
   {
+    "thumbnail": "../images/project-thumbs/kyuna-thumb.png",
+    "title": "kyuna.ai",
+    "description": "An LLM-backed quiz site with free-response evaluation.",
+    "tag": "kyuna",
+    "status": {
+      "progress": "maintained",
+      "artifact": "beta"
+    }
+  },
+  {
     "thumbnail": "../images/project-thumbs/dungeoncrawler-banner.png",
     "title": "Dunjin",
     "description": "A multiplayer platform fighter using Godot - D&D meets Smash Bros.",
