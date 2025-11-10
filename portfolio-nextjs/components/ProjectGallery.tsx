@@ -1,14 +1,18 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { useTheme } from '@/contexts/ThemeContext';
+import ProjectBadge from './ProjectBadge';
 
 interface Project {
   thumbnail: string;
   title: string;
   description: string;
   tag: string;
+  status?: {
+    progress: string;
+    artifact: string;
+  };
 }
 
 interface ProjectGalleryProps {
@@ -41,10 +45,18 @@ export default function ProjectGallery({ projects }: ProjectGalleryProps) {
               />
             </div>
             <div className="p-4">
-              <h3 className="font-mono text-sm" style={{ color: theme.text.primary }}>
-                {project.title}
-              </h3>
-              <p className="text-xs mt-1" style={{ color: theme.text.tertiary }}>
+              <div className="flex items-start justify-between gap-2 mb-2">
+                <h3 className="font-mono text-sm flex-1 min-w-0 truncate" style={{ color: theme.text.primary }}>
+                  {project.title}
+                </h3>
+                {project.status && (
+                  <div className="flex gap-1 flex-shrink-0">
+                    <ProjectBadge type="progress" value={project.status.progress} />
+                    <ProjectBadge type="artifact" value={project.status.artifact} />
+                  </div>
+                )}
+              </div>
+              <p className="text-xs" style={{ color: theme.text.tertiary }}>
                 {project.description}
               </p>
             </div>

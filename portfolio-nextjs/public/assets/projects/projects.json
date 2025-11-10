@@ -2,19 +2,31 @@
   {
     "thumbnail": "../images/project-thumbs/dungeoncrawler-banner.png",
     "title": "Dunjin",
-    "description": "A WIP multiplayer platform fighter using Godot - medieval TTRPG combat meets Smash Bros.",
-    "tag": "dungeoncrawler"
+    "description": "A multiplayer platform fighter using Godot - D&D meets Smash Bros.",
+    "tag": "dungeoncrawler",
+    "status": {
+      "progress": "wip",
+      "artifact": "demo"
+    }
   },
   {
     "thumbnail": "../images/project-thumbs/maptisse-banner.png",
     "title": "Maptisse",
     "description": "A tilemap generator for doodling and creating game maps for TTRPGs using Avalonia and .NET.",
-    "tag": "maptisse"
+    "tag": "maptisse",
+    "status": {
+      "progress": "completed",
+      "artifact": "poc"
+    }
   },
   {
     "thumbnail": "../images/project-thumbs/roses1.jpg",
     "title": "Image-to-ASCII",
     "description": "A Python script to convert images to ASCII art with color support using PIL.",
-    "tag": "image-to-ascii"
+    "tag": "image-to-ascii",
+    "status": {
+      "progress": "completed",
+      "artifact": "experiment"
+    }
   }
 ]
