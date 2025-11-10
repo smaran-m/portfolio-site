@@ -20,6 +20,8 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
   const [selectedArtwork, setSelectedArtwork] = useState<Artwork | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const modalRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
 
   const openModal = (artwork: Artwork) => {
     setSelectedArtwork(artwork);
@@ -55,6 +57,27 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
     if (e.key === 'ArrowRight') nextImage();
     if (e.key === 'ArrowLeft') prevImage();
     if (e.key === 'Escape') closeModal();
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        nextImage(); // Swipe left
+      } else {
+        prevImage(); // Swipe right
+      }
+    }
   };
 
   return (
@@ -121,40 +144,23 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
       {selectedArtwork && (
         <div
           ref={modalRef}
-          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-2 sm:p-4 outline-none mr-0 sm:mr-16"
+          className="fixed inset-0 bg-black/90 z-[150] flex items-center justify-center p-2 sm:p-4 outline-none"
           onClick={closeModal}
           onKeyDown={handleKeyDown}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
           tabIndex={0}
         >
           <button
             onClick={closeModal}
-            className="absolute top-2 right-2 sm:top-4 sm:right-20 text-white text-2xl hover:text-accent transition-colors z-10 w-10 h-10 flex items-center justify-center"
+            className="absolute top-2 right-2 sm:top-4 sm:right-4 text-white text-2xl hover:text-accent transition-colors z-10 w-10 h-10 flex items-center justify-center"
           >
             ✕
           </button>
 
-          {/* Touch-friendly prev/next buttons for mobile */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              prevImage();
-            }}
-            className="absolute left-2 top-1/2 -translate-y-1/2 sm:hidden text-white text-4xl hover:text-accent transition-colors z-10 w-12 h-12 flex items-center justify-center"
-          >
-            ‹
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              nextImage();
-            }}
-            className="absolute right-2 top-1/2 -translate-y-1/2 sm:hidden text-white text-4xl hover:text-accent transition-colors z-10 w-12 h-12 flex items-center justify-center"
-          >
-            ›
-          </button>
-
-          <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
-            <div className="relative aspect-video bg-black flex items-center justify-center">
+          <div className="max-w-6xl w-full relative" onClick={(e) => e.stopPropagation()}>
+            <div className="relative w-full min-h-[60vh] max-h-[85vh] flex items-center justify-center">
               <Image
                 src={`/assets/art/${selectedArtwork.images[currentImageIndex]}`}
                 alt={selectedArtwork.captions[currentImageIndex]}
@@ -165,12 +171,32 @@ export default function ArtGallery({ artworks }: ArtGalleryProps) {
               />
             </div>
 
-            <div className="mt-2 sm:mt-4 text-center px-2">
-              <h3 className="text-white font-mono text-base sm:text-lg">{selectedArtwork.title}</h3>
-              <p className="text-gray-400 text-xs sm:text-sm mt-1">
+            <div className="mt-2 text-center px-2 relative">
+              {/* Mobile navigation arrows positioned at text level */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  prevImage();
+                }}
+                className="absolute left-0 top-1/2 -translate-y-1/2 sm:hidden text-white text-3xl hover:text-accent transition-colors"
+              >
+                ‹
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextImage();
+                }}
+                className="absolute right-0 top-1/2 -translate-y-1/2 sm:hidden text-white text-3xl hover:text-accent transition-colors"
+              >
+                ›
+              </button>
+
+              <h3 className="text-white font-mono text-sm sm:text-base">{selectedArtwork.title}</h3>
+              <p className="text-gray-400 text-xs mt-1">
                 {selectedArtwork.captions[currentImageIndex]}
               </p>
-              <p className="text-gray-500 text-xs mt-2 font-mono">
+              <p className="text-gray-500 text-xs mt-1 font-mono">
                 {currentImageIndex + 1} / {selectedArtwork.images.length}
               </p>
             </div>

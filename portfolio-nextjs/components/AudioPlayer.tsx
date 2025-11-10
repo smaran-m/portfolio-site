@@ -26,6 +26,7 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [visualizerData, setVisualizerData] = useState<number[]>([]);
+  const [loadedSongUrl, setLoadedSongUrl] = useState<string | null>(null);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
@@ -62,10 +63,11 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
       });
     }
 
-    // Set source and play
-    if (audioRef.current.src !== currentSong.song.url) {
+    // Set source and play only if it's a different song
+    if (loadedSongUrl !== currentSong.song.url) {
       audioRef.current.src = currentSong.song.url;
       audioRef.current.load();
+      setLoadedSongUrl(currentSong.song.url);
     }
 
     if (isPlaying) {
@@ -166,6 +168,7 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
       if (audioContextRef.current) {
         audioContextRef.current.close();
       }
+      setLoadedSongUrl(null);
     };
   }, []);
 
@@ -180,13 +183,6 @@ export default function AudioPlayer({ albums }: AudioPlayerProps) {
     };
     return getLuminance(a) - getLuminance(b);
   });
-
-  // Block character intensity levels
-  const getVisualizerChar = (value: number): string => {
-    const chars = ' ░▒▓█';
-    const index = Math.floor((value / 255) * (chars.length - 1));
-    return chars[index];
-  };
 
   const getVisualizerColor = (value: number): string => {
     // Map intensity to nav colors sorted by luminosity

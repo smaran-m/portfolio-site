@@ -17,7 +17,7 @@ export default function Projects() {
           </h1>
           <ThemedText variant="secondary">
             <p className="text-lg max-w-2xl">
-              Software projects, web applications, and technical experiments. Each project showcases development process and final results.
+              Software projects, web applications, and technical experiments.
             </p>
           </ThemedText>
 

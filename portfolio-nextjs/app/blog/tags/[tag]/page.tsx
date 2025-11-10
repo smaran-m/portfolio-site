@@ -60,25 +60,31 @@ export default async function TagPage({ params }: { params: Promise<{ tag: strin
           </ThemedText>
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-2">
           {posts.map((post) => (
-            <Link key={post.slug} href={`/blog/${post.slug}`}>
+            <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
               <Card hover>
-                <div className="flex justify-between items-start mb-3">
-                  <h2 className="text-2xl font-bold text-gray-900 hover:text-accent transition-colors">
-                    {post.metadata.title}
-                  </h2>
-                  <time className="text-sm text-gray-500 font-mono whitespace-nowrap ml-4">
-                    {new Date(post.metadata.date).toLocaleDateString('en-US', {
-                      year: 'numeric',
-                      month: 'short',
-                      day: 'numeric',
-                    })}
-                  </time>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-3">
+                  <ThemedText variant="primary">
+                    <h2 className="text-xl sm:text-2xl font-bold hover:text-accent transition-colors break-words">
+                      {post.metadata.title}
+                    </h2>
+                  </ThemedText>
+                  <ThemedText variant="tertiary">
+                    <time className="text-sm font-mono sm:whitespace-nowrap sm:ml-4">
+                      {new Date(post.metadata.date).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  </ThemedText>
                 </div>
 
                 {post.metadata.description && (
-                  <p className="text-gray-600 mb-4">{post.metadata.description}</p>
+                  <ThemedText variant="secondary">
+                    <p className="mb-4">{post.metadata.description}</p>
+                  </ThemedText>
                 )}
 
                 {post.metadata.tags && post.metadata.tags.length > 0 && (

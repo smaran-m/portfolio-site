@@ -63,14 +63,14 @@ export default function BlogPage() {
             {posts.map((post) => (
               <Link key={post.slug} href={`/blog/${post.slug}`} className="block">
                 <Card hover>
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-2 sm:gap-0 mb-3">
                     <ThemedText variant="primary">
-                      <h2 className="text-2xl font-bold hover:text-accent transition-colors">
+                      <h2 className="text-xl sm:text-2xl font-bold hover:text-accent transition-colors break-words">
                         {post.metadata.title}
                       </h2>
                     </ThemedText>
                     <ThemedText variant="tertiary">
-                      <time className="text-sm font-mono whitespace-nowrap ml-4">
+                      <time className="text-sm font-mono sm:whitespace-nowrap sm:ml-4">
                         {new Date(post.metadata.date).toLocaleDateString('en-US', {
                           year: 'numeric',
                           month: 'short',
