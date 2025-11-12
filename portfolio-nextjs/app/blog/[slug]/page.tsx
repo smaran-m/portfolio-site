@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getAllPosts, getPostBySlug, markdownToHtml } from '@/lib/blog';
 import Tag from '@/components/Tag';
 import ThemedPage, { ThemedText, ThemedBorder } from '@/components/ThemedPage';
+import ThemedProse from '@/components/ThemedProse';
 import Comments from '@/components/Comments';
 
 export async function generateStaticParams() {
@@ -72,8 +73,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           )}
         </ThemedBorder>
 
-        <div
-          className="prose prose-gray max-w-none prose-headings:font-bold prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-code:text-foreground prose-code:bg-gray-100 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-code:before:content-[''] prose-code:after:content-[''] prose-pre:bg-gray-100 prose-pre:text-foreground prose-pre:border prose-pre:border-gray-200"
+        <ThemedProse
           dangerouslySetInnerHTML={{ __html: contentHtml }}
         />
 

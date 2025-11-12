@@ -26,7 +26,7 @@ export default function AboutPage() {
   return (
     <ThemedPage className="py-16">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="prose prose-gray max-w-none">
+        <div className="max-w-none">
           <h1 className="text-4xl font-bold tracking-tight mb-2">About Me</h1>
           <ThemedText variant="tertiary">
             <p className="text-sm mb-8 font-mono">Updated 11-8-2025, originally 26-05-2022</p>
@@ -40,19 +40,19 @@ export default function AboutPage() {
 
             <p>
               i used to make levels for the game{' '}
-              <Link href="https://osu.ppy.sh/u/sammish" className="text-accent hover:underline">
+              <Link href="https://osu.ppy.sh/u/sammish" className="hover:text-accent hover:underline transition-colors">
                 osu!
               </Link>{' '}
               as a teen. in college, i founded{' '}
-              <Link href="https://wreckcon.org/" className="text-accent hover:underline">
+              <Link href="https://wreckcon.org/" className="hover:text-accent hover:underline transition-colors">
                 WreckCon
               </Link>
               .
             </p>
 
             <p className="font-mono text-sm">
-              browse my code! <Link href="https://github.com/smaran-m" className="text-accent hover:underline">my github</Link><br />
-              hire me! <Link href="/docs/SmaranMishraResume.pdf" className="text-accent hover:underline">my resume</Link>
+              browse my code! <Link href="https://github.com/smaran-m" className="hover:text-accent hover:underline transition-colors">my github</Link><br />
+              hire me! <Link href="/docs/SmaranMishraResume.pdf" className="hover:text-accent hover:underline transition-colors">my resume</Link>
             </p>
             </div>
           </ThemedText>
@@ -77,7 +77,7 @@ export default function AboutPage() {
               <p className="text-xs mb-4">(exhaustive)</p>
             </ThemedText>
             <ThemedText variant="secondary">
-              <ul className="space-y-2 text-sm">
+              <ul className="space-y-2 text-sm list-none">
               <li>
                 <strong className="font-mono text-accent">music:</strong> black sabbath, against all logic, sweet trip, stereolab, chief keef
               </li>
