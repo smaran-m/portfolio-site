@@ -17,7 +17,7 @@ export default function MusicPage() {
           </h1>
           <ThemedText variant="secondary">
             <p className="text-lg max-w-2xl">
-              Original beats and remixes. Click any track to play and see the audio visualizer.
+              Original beats and remixes (excl. L4K uploads). Click any track to play.
             </p>
           </ThemedText>
 

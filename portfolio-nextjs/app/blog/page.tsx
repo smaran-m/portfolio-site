@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { getAllPosts, getAllTags } from '@/lib/blog';
+import { getAllPosts, getAllTags, calculateReadTime } from '@/lib/blog';
 import Tag from '@/components/Tag';
 import Card from '@/components/Card';
 import ThemedPage, { ThemedText } from '@/components/ThemedPage';
@@ -70,13 +70,17 @@ export default function BlogPage() {
                       </h2>
                     </ThemedText>
                     <ThemedText variant="tertiary">
-                      <time className="text-sm font-mono sm:whitespace-nowrap sm:ml-4">
-                        {new Date(post.metadata.date).toLocaleDateString('en-US', {
-                          year: 'numeric',
-                          month: 'short',
-                          day: 'numeric',
-                        })}
-                      </time>
+                      <div className="text-sm font-mono sm:whitespace-nowrap sm:ml-4 flex items-center gap-2">
+                        <time>
+                          {new Date(post.metadata.date).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                          })}
+                        </time>
+                        <span>|</span>
+                        <span>{calculateReadTime(post.content)} min read</span>
+                      </div>
                     </ThemedText>
                   </div>
 

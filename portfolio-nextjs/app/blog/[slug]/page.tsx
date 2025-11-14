@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getAllPosts, getPostBySlug, markdownToHtml } from '@/lib/blog';
+import { getAllPosts, getPostBySlug, markdownToHtml, calculateReadTime } from '@/lib/blog';
 import Tag from '@/components/Tag';
 import ThemedPage, { ThemedText, ThemedBorder } from '@/components/ThemedPage';
 import ThemedProse from '@/components/ThemedProse';
@@ -55,6 +55,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
                 day: 'numeric',
               })}
             </time>
+            <span>|</span>
+            <span>{calculateReadTime(post.content)} min read</span>
             {post.metadata.author && (
               <>
                 <span>·</span>

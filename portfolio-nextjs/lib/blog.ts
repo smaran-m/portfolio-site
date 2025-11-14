@@ -99,3 +99,10 @@ export function getPostsByTag(tag: string): Post[] {
     post.metadata.tags?.map((t) => t.toLowerCase()).includes(tag.toLowerCase())
   );
 }
+
+export function calculateReadTime(content: string): number {
+  const wordsPerMinute = 200;
+  const words = content.trim().split(/\s+/).length;
+  const readTime = Math.ceil(words / wordsPerMinute);
+  return readTime;
+}
